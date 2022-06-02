@@ -1,4 +1,4 @@
-package com.mtz.mtzfoods.mtzfoods;
+package com.mtz.mtzfoods;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

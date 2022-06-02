@@ -1,12 +1,11 @@
-package com.mtz.mtzfoods.mtzfoods.jpa;
+package com.mtz.mtzfoods.jpa;
 
-import com.mtz.mtzfoods.mtzfoods.MtzFoodsApplication;
-import com.mtz.mtzfoods.mtzfoods.model.Cozinha;
+import com.mtz.mtzfoods.MtzFoodsApplication;
+import com.mtz.mtzfoods.domain.model.Cozinha;
+import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
-
-import java.util.List;
 
 public class buscaCozinhaMain {
 
@@ -15,9 +14,9 @@ public class buscaCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
-        Cozinha cozinha = cadastroCozinha.buscar(1L);
+        Cozinha cozinha = cozinhaRepository.potId(1L);
 
         System.out.println("      ###############            " + cozinha.getNome());
     }

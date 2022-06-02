@@ -1,4 +1,4 @@
-package com.mtz.mtzfoods.mtzfoods.model;
+package com.mtz.mtzfoods.domain.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -6,20 +6,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-//@Table(name = "tab_cozinhas")
-public class Cozinha {
+public class Restaurante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "nom_cozinha", length = 90)
     private String nome;
+
+    @Column(name = "taxa_frete")
+    private BigDecimal taxaFrete;
+
 
 }

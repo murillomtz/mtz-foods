@@ -1,7 +1,8 @@
-package com.mtz.mtzfoods.mtzfoods.jpa;
+package com.mtz.mtzfoods.jpa;
 
-import com.mtz.mtzfoods.mtzfoods.MtzFoodsApplication;
-import com.mtz.mtzfoods.mtzfoods.model.Cozinha;
+import com.mtz.mtzfoods.MtzFoodsApplication;
+import com.mtz.mtzfoods.domain.model.Cozinha;
+import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,9 +16,9 @@ public class consultaCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhaRepository  = applicationContext.getBean(CozinhaRepository.class);
 
-        List<Cozinha> cozinhas =   cadastroCozinha.listar();
+        List<Cozinha> cozinhas =   cozinhaRepository.listar();
 
         for (Cozinha cozinha: cozinhas) {
             System.out.println(cozinha.getNome());
