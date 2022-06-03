@@ -2,12 +2,13 @@ package com.mtz.mtzfoods.infrastructure.repository;
 
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-
+@Component
 public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 
