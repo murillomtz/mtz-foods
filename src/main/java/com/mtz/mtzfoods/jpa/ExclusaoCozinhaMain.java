@@ -20,7 +20,7 @@ public class ExclusaoCozinhaMain {
         cozinha1.setId(1L);
         //cozinha1.setNome("Brasileira");
 
-        cozinhaRepository.remover(cozinha1);
+        cozinhaRepository.remover(cozinha1.getId());
 
     }
 }

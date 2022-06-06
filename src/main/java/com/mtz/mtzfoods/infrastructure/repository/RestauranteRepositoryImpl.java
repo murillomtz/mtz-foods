@@ -1,7 +1,9 @@
 package com.mtz.mtzfoods.infrastructure.repository;
 
+import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
                 .getResultList();
 
     }
+
     @Override
     public Restaurante potId(Long id) {
         return manager.find(Restaurante.class, id);
@@ -35,8 +38,16 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @Override
     @Transactional
-    public void remover(Restaurante restaurante) {
-        restaurante = potId(restaurante.getId());
+    public void remover(Long id) {
+
+        Restaurante restaurante = potId(id);
+        if (restaurante == null) {
+            /**
+             * {@link EmptyResultDataAccessException} : Recebe como parametro
+             * O tamanho esperado, ou seja, esperada apenas 1 obj (Cozinha)
+             * */
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(restaurante);
     }
 }
