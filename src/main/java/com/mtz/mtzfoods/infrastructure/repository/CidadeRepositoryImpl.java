@@ -4,13 +4,14 @@ import com.mtz.mtzfoods.domain.model.Cidade;
 import com.mtz.mtzfoods.domain.repository.CidadeRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Component
+@Repository
 public class CidadeRepositoryImpl implements CidadeRepository {
     @PersistenceContext // Serve como Autoride
     private EntityManager manager;
