@@ -2,6 +2,7 @@ package com.mtz.mtzfoods.infrastructure.repository;
 
 import com.mtz.mtzfoods.domain.model.Estado;
 import com.mtz.mtzfoods.domain.repository.EstadoRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +19,7 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Override
     public List<Estado> todas() {
-        return manager.createQuery("from Estado", Estado.class)
-                .getResultList();
+        return manager.createQuery("from Estado", Estado.class).getResultList();
 
     }
 
@@ -36,8 +36,11 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Override
     @Transactional
-    public void remover(Estado estado) {
-        estado = potId(estado.getId());
+    public void remover(Long id) {
+        Estado estado = potId(id);
+        if (estado == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(estado);
     }
 }

@@ -3,29 +3,30 @@ package com.mtz.mtzfoods.domain.service;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
-import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
+import com.mtz.mtzfoods.domain.model.Estado;
+import com.mtz.mtzfoods.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroCozinhaService {
+public class CadastroEstadoService {
     @Autowired
-    private CozinhaRepository repository;
+    private EstadoRepository repository;
 
-    public Cozinha salvar(Cozinha cozinha) {
-        return repository.adicionar(cozinha);
 
+    public Estado salvar(Estado estado) {
+      return repository.adicionar(estado);
     }
 
-    public void excluir(Long cozinhaId) {
+    public void excluir(Long estadoId) {
         try {
-            repository.remover(cozinhaId);
+            repository.remover(estadoId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cozinha com código %d", cozinhaId));
+                    String.format("Não existe um cadastro de estado com código %d", estadoId));
         } catch (DataIntegrityViolationException e) {
             /**
              * {@link DataIntegrityViolationException}: não tem haver com
@@ -34,8 +35,8 @@ public class CadastroCozinhaService {
              * para camada de negocio.
              * */
             throw new EntidadeEmUsoException(
-                    String.format("Cozinha de codigo %d não pode ser removida," +
-                            "pois está em uso. ", cozinhaId)
+                    String.format("Estado de codigo %d não pode ser removida," +
+                            "pois está em uso. ", estadoId)
             );
         }
     }

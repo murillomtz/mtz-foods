@@ -2,45 +2,47 @@ package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
+import com.mtz.mtzfoods.domain.model.Cidade;
 import com.mtz.mtzfoods.domain.model.Cozinha;
-import com.mtz.mtzfoods.domain.model.Restaurante;
+import com.mtz.mtzfoods.domain.model.Estado;
+import com.mtz.mtzfoods.domain.repository.CidadeRepository;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
-import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
+import com.mtz.mtzfoods.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroRestauranteService {
+public class CadastroCidadeService {
     @Autowired
-    private RestauranteRepository repository;
+    private CidadeRepository repository;
 
     @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private EstadoRepository estadoRepository;
 
-    public Restaurante salvar(Restaurante restaurante) {
-        Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.potId(cozinhaId);
+    public Cidade salvar(Cidade cidade) {
+        Long estadoId = cidade.getEstado().getId();
+        Estado estado = estadoRepository.potId(estadoId);
 
-        if (cozinha == null) {
+        if (estado == null) {
             throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de restaurante com código %d ", cozinhaId)
+                    String.format("Não existe cadastro de estado com código %d ", estadoId)
             );
         }
 
-        restaurante.setCozinha(cozinha);
+        cidade.setEstado(estado);
 
-        return repository.adicionar(restaurante);
+        return repository.adicionar(cidade);
     }
 
-    public void excluir(Long restauranteId) {
+    public void excluir(Long cidadeId) {
         try {
-            repository.remover(restauranteId);
+            repository.remover(cidadeId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
+                    String.format("Não existe um cadastro de cidade com código %d", cidadeId));
         } catch (DataIntegrityViolationException e) {
             /**
              * {@link DataIntegrityViolationException}: não tem haver com
@@ -49,8 +51,8 @@ public class CadastroRestauranteService {
              * para camada de negocio.
              * */
             throw new EntidadeEmUsoException(
-                    String.format("Restaurante de codigo %d não pode ser removida," +
-                            "pois está em uso. ", restauranteId)
+                    String.format("Cidade de codigo %d não pode ser removida," +
+                            "pois está em uso. ", cidadeId)
             );
         }
     }
