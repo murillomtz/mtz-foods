@@ -1,19 +1,13 @@
 package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Estado;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//@Repository
-@Component
-public interface EstadoRepository {
+@Repository
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 
-    List<Estado> todas();
-
-    Estado potId(Long id);
-
-    Estado adicionar(Estado estado);
-
-    void remover(Long id);
 }

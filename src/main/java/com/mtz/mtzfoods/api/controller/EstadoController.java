@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 //@Controller
 //@ResponseBody //Indica que a respostar desse controler, devem ir para a resposta da request HTTP
@@ -36,15 +37,15 @@ public class EstadoController {
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)//Metodo produz apenas formato JSON
     @GetMapping()
     public List<Estado> listar() {
-        return repository.todas();
+        return repository.findAll();
     }
 
     @GetMapping(value = "/{estadoId}")
     public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-        Estado estado = repository.potId(estadoId);
+        Optional<Estado> estado = repository.findById(estadoId);
 
-        if (estado != null) {
-            return ResponseEntity.ok(estado);
+        if (estado.isPresent()) {
+            return ResponseEntity.ok(estado.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -60,15 +61,15 @@ public class EstadoController {
     @PutMapping("/{estadoId}")
     public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
 
-        Estado estadoAtual = repository.potId(estadoId);
-        if (estadoAtual != null) {
+        Optional<Estado> estadoAtual = repository.findById(estadoId);
+        if (estadoAtual.isPresent()) {
             /**
              * Copia o estado para estadoAtual, e ignora o ID, pois está null
              * */
             BeanUtils.copyProperties(estado, estadoAtual, "id");
 
-            estadoAtual = service.salvar(estadoAtual);
-            return ResponseEntity.ok(estadoAtual);
+            Estado estadoSalvar = service.salvar(estadoAtual.get());
+            return ResponseEntity.ok(estadoSalvar);
         }
         return ResponseEntity.notFound().build();
 

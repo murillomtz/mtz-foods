@@ -21,22 +21,20 @@ public class CadastroRestauranteService {
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.potId(cozinhaId);
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() ->  new EntidadeNaoEncontradaException(
+                String.format("Não existe cadastro de restaurante com código %d ", cozinhaId) ));
 
-        if (cozinha == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de restaurante com código %d ", cozinhaId)
-            );
-        }
+
 
         restaurante.setCozinha(cozinha);
 
-        return repository.adicionar(restaurante);
+        return repository.save(restaurante);
     }
 
     public void excluir(Long restauranteId) {
         try {
-            repository.remover(restauranteId);
+            repository.deleteById(restauranteId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

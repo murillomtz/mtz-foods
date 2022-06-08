@@ -1,21 +1,12 @@
 package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Cozinha;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
-//@Repository
-@Component
-public interface CozinhaRepository {
+@Repository
+public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
+    //List<Cozinha> consultarPorNome(String nome);
 
-    List<Cozinha> todas();
-
-    List<Cozinha> consultarPorNome(String nome);
-
-    Cozinha potId(Long id);
-
-    Cozinha adicionar(Cozinha cozinha);
-
-    void remover(Long id);
 }

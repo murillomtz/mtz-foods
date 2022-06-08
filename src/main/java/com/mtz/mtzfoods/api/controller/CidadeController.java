@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 //@Controller
 //@ResponseBody //Indica que a respostar desse controler, devem ir para a resposta da request HTTP
@@ -27,15 +28,15 @@ public class CidadeController {
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)//Metodo produz apenas formato JSON
     @GetMapping()
     public List<Cidade> listar() {
-        return repository.todas();
+        return repository.findAll();
     }
 
     @GetMapping(value = "/{cidadeId}")
     public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
-        Cidade cidade = repository.potId(cidadeId);
+        Optional<Cidade> cidade = repository.findById(cidadeId);
 
         if (cidade != null) {
-            return ResponseEntity.ok(cidade);
+            return ResponseEntity.ok(cidade.get());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -54,7 +55,10 @@ public class CidadeController {
     public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
 
         try {
-            Cidade cidadeAtual = repository.potId(cidadeId);
+            // Podemos usar o orElse(null) também, que retorna a instância de cidade
+            // dentro do Optional, ou null, caso ele esteja vazio,
+            // mas nesse caso, temos a responsabilidade de tomar cuidado com NullPointerException
+            Cidade cidadeAtual = repository.findById(cidadeId).orElse(null);
 
             if (cidadeAtual != null) {
                 /**

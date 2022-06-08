@@ -17,12 +17,12 @@ public class CadastroEstadoService {
 
 
     public Estado salvar(Estado estado) {
-      return repository.adicionar(estado);
+      return repository.save(estado);
     }
 
     public void excluir(Long estadoId) {
         try {
-            repository.remover(estadoId);
+            repository.deleteById(estadoId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

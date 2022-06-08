@@ -3,10 +3,8 @@ package com.mtz.mtzfoods.domain.service;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cidade;
-import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Estado;
 import com.mtz.mtzfoods.domain.repository.CidadeRepository;
-import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import com.mtz.mtzfoods.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,22 +21,19 @@ public class CadastroCidadeService {
 
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
-        Estado estado = estadoRepository.potId(estadoId);
-
-        if (estado == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de estado com código %d ", estadoId)
-            );
-        }
+        Estado estado = estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de estado com código %d ", estadoId)
+                ));
 
         cidade.setEstado(estado);
 
-        return repository.adicionar(cidade);
+        return repository.save(cidade);
     }
 
     public void excluir(Long cidadeId) {
         try {
-            repository.remover(cidadeId);
+            repository.deleteById(cidadeId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

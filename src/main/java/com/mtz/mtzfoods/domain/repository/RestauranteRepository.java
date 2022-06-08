@@ -1,19 +1,11 @@
 package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Restaurante;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 
-//@Repository
-@Component
-public interface RestauranteRepository {
 
-    List<Restaurante> todas();
-
-    Restaurante potId(Long id);
-
-    Restaurante adicionar(Restaurante restaurante);
-
-    void remover(Long id);
 }

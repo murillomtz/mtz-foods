@@ -1,19 +1,10 @@
 package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Permissao;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface PermissaoRepository extends JpaRepository<Permissao, Long> {
 
-//@Repository
-@Component
-public interface PermissaoRepository {
-
-    List<Permissao> todas();
-
-    Permissao potId(Long id);
-
-    Permissao adicionar(Permissao permissao);
-
-    void remover(Permissao permissao);
 }
