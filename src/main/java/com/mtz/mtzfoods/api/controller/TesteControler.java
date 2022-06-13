@@ -4,6 +4,8 @@ import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
+import com.mtz.mtzfoods.infrastructure.spec.RestauranteComFreteGratisSpec;
+import com.mtz.mtzfoods.infrastructure.spec.RestauranteComNomeSemelhanteSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,5 +71,12 @@ public class TesteControler {
         return restauranteRepository.countByCozinhaId(cozinhaId);
     }
 
+    @GetMapping("/restaurantes/com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(String nome) {
+        var comFreteGratis = new RestauranteComFreteGratisSpec();
+        var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+
+        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+    }
 
 }

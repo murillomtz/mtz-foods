@@ -2,6 +2,7 @@ package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +10,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link JpaSpecificationExecutor}: Prepara o repository para receber um espcication
+ * implements Specification<Restaurante>
+ * */
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
+        JpaSpecificationExecutor<Restaurante> {
 
     /**
      * Between - Faz a busca entre um intervalo.
