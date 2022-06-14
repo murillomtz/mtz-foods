@@ -1,7 +1,6 @@
 package com.mtz.mtzfoods.domain.repository;
 
 import com.mtz.mtzfoods.domain.model.Cozinha;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
+public interface CozinhaRepository extends CustomJpaRepository<Cozinha, Long> {
 
     /***
      * Containing- Faz uma busca usando o SQL LIKE
@@ -22,7 +21,7 @@ public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
 
     /**
      * Exists - Traz um boolean
-     * */
+     */
     boolean existsByNome(String nome);
 
 }

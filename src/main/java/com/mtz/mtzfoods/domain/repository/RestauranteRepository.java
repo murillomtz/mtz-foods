@@ -13,9 +13,10 @@ import java.util.Optional;
 /**
  * {@link JpaSpecificationExecutor}: Prepara o repository para receber um espcication
  * implements Specification<Restaurante>
- * */
+ */
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
+public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>,
+        JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
         JpaSpecificationExecutor<Restaurante> {
 
     /**
