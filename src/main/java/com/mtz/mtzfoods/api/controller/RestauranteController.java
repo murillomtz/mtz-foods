@@ -58,12 +58,13 @@ public class RestauranteController {
     @PutMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
 
-        Optional<Restaurante>  restauranteAtual = repository.findById(restauranteId);
+        Optional<Restaurante> restauranteAtual = repository.findById(restauranteId);
         if (restauranteAtual != null) {
             /**
              * Copia a restaurante para restauranteAtual, e ignora o ID, pois está null
              * */
-            BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+            BeanUtils.copyProperties(restaurante, restauranteAtual, "id",
+                    "formasPagamento", "endereco" , "dataCadastro", "dataAtualizacao");
 
             Restaurante restauranteSalvar = service.salvar(restauranteAtual.get());
             return ResponseEntity.ok(restauranteSalvar);
