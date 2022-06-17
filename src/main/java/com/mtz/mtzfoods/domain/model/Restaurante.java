@@ -1,6 +1,7 @@
 package com.mtz.mtzfoods.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,12 +32,16 @@ public class Restaurante {
     /**
      * {@link ManyToOne} : Varias Cozinhas para 1 restaurante
      * {@link JoinColumn} : Usado para definir nome da tabalea em casa de ligação
+     * {@link JsonIgnoreProperties} : Usado geralmente quando usammos o LAZY, ele serve para
+     * ignorar propriedades e nao a entidade toda.
+     * <p>
+     * OBS:
      */
     //@Valid
     //@NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
-    //@JsonIgnore
+    //@JsonIgnoreProperties("hibernateLazyInitializer")
     private Cozinha cozinha;
 
     /**
@@ -60,10 +65,14 @@ public class Restaurante {
     private LocalDateTime dataAtualizacao;
 
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
 }

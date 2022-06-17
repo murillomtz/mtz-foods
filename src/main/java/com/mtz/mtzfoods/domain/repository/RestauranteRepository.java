@@ -3,6 +3,7 @@ package com.mtz.mtzfoods.domain.repository;
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,13 @@ import java.util.Optional;
 public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>,
         JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
         JpaSpecificationExecutor<Restaurante> {
+
+    /**
+     * Macete para fazer um join entre a tabela restaurante e cozinha
+     *
+     * */
+    @Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+    List<Restaurante> findAll();
 
     /**
      * Between - Faz a busca entre um intervalo.
