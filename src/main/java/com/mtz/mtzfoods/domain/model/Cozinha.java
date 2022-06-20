@@ -27,10 +27,13 @@ public class Cozinha {
     @Column(nullable = false)
     private String nome;
 
+//    @Column(name = "observacao", nullable = false)
+//    private String descricao;
+
     /**
      * Importante verificar a importancia do OneToMany, pode nao ser necessario
      * fazer a interligação
-     * */
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();

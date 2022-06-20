@@ -24,7 +24,8 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
      * Macete para fazer um join entre a tabela restaurante e cozinha
      *
      * */
-    @Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+    //@Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+    @Query("from Restaurante r join fetch r.cozinha ")
     List<Restaurante> findAll();
 
     /**
