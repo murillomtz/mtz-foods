@@ -4,6 +4,7 @@ import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Restaurante;
+import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,17 +16,29 @@ public class CadastroRestauranteService {
     @Autowired
     private RestauranteRepository repository;
 
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
+
     public Restaurante salvar(Restaurante restaurante) {
-        return repository.adicionar(restaurante);
+        Long cozinhaId = restaurante.getCozinha().getId();
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() ->  new EntidadeNaoEncontradaException(
+                String.format("Não existe cadastro de restaurante com código %d ", cozinhaId) ));
+
+
+
+        restaurante.setCozinha(cozinha);
+
+        return repository.save(restaurante);
     }
 
     public void excluir(Long restauranteId) {
         try {
-            repository.remover(restauranteId);
+            repository.deleteById(restauranteId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de coinha com código %d", restauranteId));
+                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
         } catch (DataIntegrityViolationException e) {
             /**
              * {@link DataIntegrityViolationException}: não tem haver com
@@ -34,7 +47,7 @@ public class CadastroRestauranteService {
              * para camada de negocio.
              * */
             throw new EntidadeEmUsoException(
-                    String.format("Cozinha de codigo %d não pode ser removida," +
+                    String.format("Restaurante de codigo %d não pode ser removida," +
                             "pois está em uso. ", restauranteId)
             );
         }

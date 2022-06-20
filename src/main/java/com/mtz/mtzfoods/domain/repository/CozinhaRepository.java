@@ -4,15 +4,24 @@ import com.mtz.mtzfoods.domain.model.Cozinha;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-//@Repository
-public interface CozinhaRepository {
 
-    List<Cozinha> todas();
+@Repository
+public interface CozinhaRepository extends CustomJpaRepository<Cozinha, Long> {
 
-    Cozinha potId(Long id);
+    /***
+     * Containing- Faz uma busca usando o SQL LIKE
+     * Ex: %strin%
+     */
 
-    Cozinha adicionar(Cozinha cozinha);
+    List<Cozinha> findTodasByNomeContaining(String nome);
 
-    void remover(Long id);
+    Optional<Cozinha> findByNome(String nome);
+
+    /**
+     * Exists - Traz um boolean
+     */
+    boolean existsByNome(String nome);
+
 }
