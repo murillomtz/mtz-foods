@@ -13,43 +13,49 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CadastroRestauranteService {
+
+    private static final String MSG_RESTAURANTE_NAO_ENCONTRADO
+            = "Não existe um cadastro de restaurante com código %d";
     @Autowired
     private RestauranteRepository repository;
 
     @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private CadastroCozinhaService cozinhaService;
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
-                .orElseThrow(() ->  new EntidadeNaoEncontradaException(
-                String.format("Não existe cadastro de restaurante com código %d ", cozinhaId) ));
 
-
+        Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
 
         restaurante.setCozinha(cozinha);
 
         return repository.save(restaurante);
     }
 
-    public void excluir(Long restauranteId) {
-        try {
-            repository.deleteById(restauranteId);
+//    public void excluir(Long restauranteId) {
+//        try {
+//            repository.deleteById(restauranteId);
+//
+//        } catch (EmptyResultDataAccessException e) {
+//            throw new EntidadeNaoEncontradaException(
+//                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
+//        } catch (DataIntegrityViolationException e) {
+//            /**
+//             * {@link DataIntegrityViolationException}: não tem haver com
+//             * a camada de negocio, ela pertence a camada de infraestrutura
+//             * por isso, criamos uma Exception personalisada para "traduzir"
+//             * para camada de negocio.
+//             * */
+//            throw new EntidadeEmUsoException(
+//                    String.format("Restaurante de codigo %d não pode ser removida," +
+//                            "pois está em uso. ", restauranteId)
+//            );
+//        }
+//    }
 
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
-        } catch (DataIntegrityViolationException e) {
-            /**
-             * {@link DataIntegrityViolationException}: não tem haver com
-             * a camada de negocio, ela pertence a camada de infraestrutura
-             * por isso, criamos uma Exception personalisada para "traduzir"
-             * para camada de negocio.
-             * */
-            throw new EntidadeEmUsoException(
-                    String.format("Restaurante de codigo %d não pode ser removida," +
-                            "pois está em uso. ", restauranteId)
-            );
-        }
+    public Restaurante buscarOuFalhar(Long restauranteId) {
+        return repository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
     }
 }
