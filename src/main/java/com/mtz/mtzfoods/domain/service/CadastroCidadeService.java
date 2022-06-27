@@ -1,5 +1,6 @@
 package com.mtz.mtzfoods.domain.service;
 
+import com.mtz.mtzfoods.domain.exception.CidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cidade;
@@ -41,7 +42,7 @@ public class CadastroCidadeService {
             repository.deleteById(cidadeId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
+            throw new CidadeNaoEncontradaException(
                     String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
         } catch (DataIntegrityViolationException e) {
             /**
@@ -60,7 +61,7 @@ public class CadastroCidadeService {
     public Cidade buscarOuFalhar(Long cidadeId) {
         return repository.findById(cidadeId)
                 .orElseThrow(() ->
-                        new EntidadeNaoEncontradaException(
+                        new CidadeNaoEncontradaException(
                                 String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
     }
 }

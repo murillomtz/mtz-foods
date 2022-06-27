@@ -2,6 +2,7 @@ package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
+import com.mtz.mtzfoods.domain.exception.EstadoNaoEncontradoException;
 import com.mtz.mtzfoods.domain.model.Estado;
 import com.mtz.mtzfoods.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ public class CadastroEstadoService {
     private static final String MSG_ESTADO_EM_USO
             = "Estado de código %d não pode ser removido, pois está em uso";
 
-    private static final String MSG_ESTADO_NAO_ENCONTRADO
-            = "Não existe um cadastro de estado com código %d";
+
     @Autowired
     private EstadoRepository repository;
 
@@ -30,8 +30,7 @@ public class CadastroEstadoService {
             repository.deleteById(estadoId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId));
+            throw new EstadoNaoEncontradoException(estadoId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -41,7 +40,6 @@ public class CadastroEstadoService {
 
     public Estado buscarOuFalhar(Long estadoId) {
         return repository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId)));
+                .orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
     }
 }

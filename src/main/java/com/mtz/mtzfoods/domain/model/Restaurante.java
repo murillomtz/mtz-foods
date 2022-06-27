@@ -39,7 +39,7 @@ public class Restaurante {
      */
     //@Valid
     //@NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
     //@JsonIgnoreProperties("hibernateLazyInitializer")
     private Cozinha cozinha;

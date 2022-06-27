@@ -43,10 +43,10 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     @Override
     public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        var builder = manager.getCriteriaBuilder();
 
-        CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
-        Root<Restaurante> root = criteria.from(Restaurante.class);
+        var criteria = builder.createQuery(Restaurante.class);
+        var root = criteria.from(Restaurante.class);
 
         var predicates = new ArrayList<Predicate>();
 

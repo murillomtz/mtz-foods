@@ -1,5 +1,6 @@
 package com.mtz.mtzfoods.domain.service;
 
+import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
@@ -27,7 +28,7 @@ public class CadastroCozinhaService {
             repository.deleteById(cozinhaId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
+            throw new CozinhaNaoEncontradaException(
                     String.format(MSG_COZINHA_NAO_ENCONTRADA, cozinhaId));
         } catch (DataIntegrityViolationException e) {
             /**
@@ -44,7 +45,7 @@ public class CadastroCozinhaService {
 
     public Cozinha buscarOuFalhar(Long cozinhaId) {
         return repository.findById(cozinhaId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                .orElseThrow(() -> new CozinhaNaoEncontradaException(
                         String.format(MSG_COZINHA_NAO_ENCONTRADA, cozinhaId)));
     }
 }

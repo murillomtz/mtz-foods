@@ -1,6 +1,7 @@
 package com.mtz.mtzfoods.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.NegocioException;
 import com.mtz.mtzfoods.domain.model.Restaurante;
@@ -43,7 +44,7 @@ public class RestauranteController {
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
         try {
             return service.salvar(restaurante);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -51,13 +52,13 @@ public class RestauranteController {
     @PutMapping("/{restauranteId}")
     public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
 
-        Restaurante restauranteAtual = service.buscarOuFalhar(restauranteId);
-
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
         try {
+            Restaurante restauranteAtual = service.buscarOuFalhar(restauranteId);
+
+            BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
             return service.salvar(restauranteAtual);
         } catch (
-                EntidadeNaoEncontradaException e) {
+                CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
 

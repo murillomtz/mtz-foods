@@ -2,6 +2,7 @@ package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
+import com.mtz.mtzfoods.domain.exception.RestauranteNaoEncontradoException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CadastroRestauranteService {
 
-    private static final String MSG_RESTAURANTE_NAO_ENCONTRADO
-            = "Não existe um cadastro de restaurante com código %d";
     @Autowired
     private RestauranteRepository repository;
 
@@ -55,7 +54,6 @@ public class CadastroRestauranteService {
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return repository.findById(restauranteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 }
