@@ -1,8 +1,9 @@
 package com.mtz.mtzfoods.domain.exception;
 
-public class EntidadeNaoEncontradaException extends RuntimeException{
+//@ResponseStatus(HttpStatus.NOT_FOUND)
+public abstract class EntidadeNaoEncontradaException extends NegocioException{
 
-    public EntidadeNaoEncontradaException(String mensagem){
+    public EntidadeNaoEncontradaException(String mensagem) {
         super(mensagem);
     }
 }
