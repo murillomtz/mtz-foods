@@ -1,7 +1,5 @@
 package com.mtz.mtzfoods.api.controller;
 
-import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
-import com.mtz.mtzfoods.domain.exception.NegocioException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import com.mtz.mtzfoods.domain.service.CadastroCozinhaService;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //@Controller
@@ -36,14 +35,15 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+    public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
         return service.salvar(cozinha);
 
     }
-///////
+
+    ///////
     @PutMapping("/{cozinhaId}")
     public Cozinha atualizar(@PathVariable Long cozinhaId,
-                             @RequestBody Cozinha cozinha) {
+                             @RequestBody @Valid Cozinha cozinha) {
         Cozinha cozinhaAtual = service.buscarOuFalhar(cozinhaId);
 
         /**

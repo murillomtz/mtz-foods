@@ -2,7 +2,6 @@ package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
-import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

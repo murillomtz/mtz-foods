@@ -3,9 +3,9 @@ package com.mtz.mtzfoods.jpa;
 import com.mtz.mtzfoods.MtzFoodsApplication;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
-import org.springframework.context.ApplicationContext;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 

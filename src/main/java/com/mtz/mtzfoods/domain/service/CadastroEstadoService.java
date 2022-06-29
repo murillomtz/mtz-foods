@@ -1,7 +1,6 @@
 package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
-import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EstadoNaoEncontradoException;
 import com.mtz.mtzfoods.domain.model.Estado;
 import com.mtz.mtzfoods.domain.repository.EstadoRepository;

@@ -1,15 +1,10 @@
 package com.mtz.mtzfoods.domain.service;
 
-import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
-import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.RestauranteNaoEncontradoException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.model.Restaurante;
-import com.mtz.mtzfoods.domain.repository.CozinhaRepository;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service

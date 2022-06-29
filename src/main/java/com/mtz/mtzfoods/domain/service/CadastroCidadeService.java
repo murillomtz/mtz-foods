@@ -2,11 +2,9 @@ package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.CidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
-import com.mtz.mtzfoods.domain.exception.EntidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.model.Cidade;
 import com.mtz.mtzfoods.domain.model.Estado;
 import com.mtz.mtzfoods.domain.repository.CidadeRepository;
-import com.mtz.mtzfoods.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
