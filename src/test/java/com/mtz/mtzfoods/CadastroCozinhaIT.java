@@ -2,6 +2,8 @@ package com.mtz.mtzfoods;
 
 
 
+import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
+import com.mtz.mtzfoods.domain.exception.EntidadeEmUsoException;
 import com.mtz.mtzfoods.domain.model.Cozinha;
 import com.mtz.mtzfoods.domain.service.CadastroCozinhaService;
 
@@ -14,10 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.ConstraintViolationException;
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CadastroCozinhaIntegrationTests {
+public class CadastroCozinhaIT {
     @Autowired
     private CadastroCozinhaService cadastroCozinha;
     @Test
@@ -34,17 +35,25 @@ public class CadastroCozinhaIntegrationTests {
         assertThat(novaCozinha).isNotNull();
         assertThat(novaCozinha.getId()).isNotNull();
     }
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = DataIntegrityViolationException.class)//Precisou Mudar a excption
     public void testeCadastroCozinhaSemNome(){
         //Cenario
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome(null);
-
-        //Ação
-
         novaCozinha = cadastroCozinha.salvar(novaCozinha);
 
-        //Validação
+    }
+
+    @Test(expected = EntidadeEmUsoException.class)
+    public void testeExcluirCozinhaEmUso(){
+        cadastroCozinha.excluir(1L);
+
+    }
+
+    @Test(expected = CozinhaNaoEncontradaException.class)//Precisou Mudar a excption
+    public void testeExcluirCozinhaInexistente(){
+        cadastroCozinha.excluir(100L);
+
     }
 
 }
