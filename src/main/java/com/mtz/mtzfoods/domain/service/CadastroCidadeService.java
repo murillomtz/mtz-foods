@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroCidadeService {
+public class    CadastroCidadeService {
     public static final String MSG_CIDADE_EM_USO = "Cidade de codigo %d não pode ser removida," +
             "pois está em uso. ";
     public static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe um cadastro de cidade com código %d";
@@ -20,7 +21,7 @@ public class CadastroCidadeService {
 
     @Autowired
     private CadastroEstadoService estadoService;
-
+    @Transactional
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
 
@@ -34,7 +35,7 @@ public class CadastroCidadeService {
 
         return repository.save(cidade);
     }
-
+    @Transactional
     public void excluir(Long cidadeId) {
         try {
             repository.deleteById(cidadeId);

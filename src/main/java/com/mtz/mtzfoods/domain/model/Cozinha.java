@@ -36,7 +36,6 @@ public class Cozinha {
      * Importante verificar a importancia do OneToMany, pode nao ser necessario
      * fazer a interligação
      */
-    @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();
 }

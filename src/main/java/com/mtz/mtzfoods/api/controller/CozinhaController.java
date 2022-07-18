@@ -40,7 +40,6 @@ public class CozinhaController {
 
     }
 
-    ///////
     @PutMapping("/{cozinhaId}")
     public Cozinha atualizar(@PathVariable Long cozinhaId,
                              @RequestBody @Valid Cozinha cozinha) {
@@ -53,25 +52,6 @@ public class CozinhaController {
 
         return service.salvar(cozinhaAtual);
     }
-
-//    @PutMapping("/{cozinhaId}")
-//    public Cozinha atualizar(@PathVariable Long cozinhaId,
-//                             @RequestBody Cozinha cozinha) {
-//        Cozinha cozinhaAtual = service.buscarOuFalhar(cozinhaId);
-//
-//        /**
-//         * Copia a cozinha para cozinhaAtual, e ignora o ID, pois está null
-//         * */
-//        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-//        try {
-//
-//            return service.salvar(cozinhaAtual);
-//        } catch (
-//                EntidadeNaoEncontradaException e) {
-//            throw new NegocioException(e.getMessage());
-//        }
-//    }
-
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cozinhaId) {
@@ -79,6 +59,5 @@ public class CozinhaController {
         service.excluir(cozinhaId);
 
     }
-
 
 }

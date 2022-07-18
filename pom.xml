@@ -73,6 +73,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <!--Para testes-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>
@@ -83,7 +89,7 @@
             </plugin>
 
 
-            <!-- !mvnw verify-->
+            <!-- !mvnw verify - Com esse plugin ele não roda os teste para subir o build-->
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
