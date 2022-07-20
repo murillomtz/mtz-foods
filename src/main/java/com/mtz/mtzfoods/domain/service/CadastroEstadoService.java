@@ -30,6 +30,7 @@ public class CadastroEstadoService {
     public void excluir(Long estadoId) {
         try {
             repository.deleteById(estadoId);
+            repository.flush();
 
         } catch (EmptyResultDataAccessException e) {
             throw new EstadoNaoEncontradoException(estadoId);

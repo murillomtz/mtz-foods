@@ -15,39 +15,18 @@ public class CadastroRestauranteService {
     private RestauranteRepository repository;
 
     @Autowired
-    private CadastroCozinhaService cozinhaService;
+    private CadastroCozinhaService service;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
 
-        Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
+        Cozinha cozinha = service.buscarOuFalhar(cozinhaId);
 
         restaurante.setCozinha(cozinha);
 
         return repository.save(restaurante);
     }
-
-//    public void excluir(Long restauranteId) {
-//        try {
-//            repository.deleteById(restauranteId);
-//
-//        } catch (EmptyResultDataAccessException e) {
-//            throw new EntidadeNaoEncontradaException(
-//                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
-//        } catch (DataIntegrityViolationException e) {
-//            /**
-//             * {@link DataIntegrityViolationException}: não tem haver com
-//             * a camada de negocio, ela pertence a camada de infraestrutura
-//             * por isso, criamos uma Exception personalisada para "traduzir"
-//             * para camada de negocio.
-//             * */
-//            throw new EntidadeEmUsoException(
-//                    String.format("Restaurante de codigo %d não pode ser removida," +
-//                            "pois está em uso. ", restauranteId)
-//            );
-//        }
-//    }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return repository.findById(restauranteId)

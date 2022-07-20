@@ -17,6 +17,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,12 @@ public class Restaurante {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank
+   // @NotBlank
     @Column(nullable = false)
     private String nome;
 
-    @NotNull
-    @PositiveOrZero
+  //  @NotNull
+   // @PositiveOrZero
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
@@ -50,9 +51,9 @@ public class Restaurante {
      */
     //@Valid
     //@NotNull
-    @Valid
-    @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
-    @NotNull
+   // @Valid
+   // @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+   // @NotNull
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
@@ -65,15 +66,14 @@ public class Restaurante {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
     /**
      * {@link UpdateTimestamp} -> Sempre q a entidade for atualizada ele irá definir uma nova hora, a hora atual.
      */
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime dataAtualizacao;
-
+    private OffsetDateTime dataAtualizacao;
 
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",

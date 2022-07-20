@@ -28,6 +28,11 @@ public class CadastroCozinhaService {
     public void excluir(Long cozinhaId) {
         try {
             repository.deleteById(cozinhaId);
+            /**
+             * flush() é usado pois o @Transactional mudou o tamanho do escopo do "deleteyid"
+             * então usamos o flush() para forçar essa discarga no Banco
+             * */
+            repository.flush();
 
         } catch (EmptyResultDataAccessException e) {
             throw new CozinhaNaoEncontradaException(
