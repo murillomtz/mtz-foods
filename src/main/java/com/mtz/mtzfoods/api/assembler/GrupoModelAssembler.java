@@ -7,22 +7,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mtz.mtzfoods.api.model.EstadoModel;
-import com.mtz.mtzfoods.domain.model.Estado;
+import com.mtz.mtzfoods.api.model.GrupoModel;
+import com.mtz.mtzfoods.domain.model.Grupo;
 
 @Component
-public class EstadoModelAssembler {
+public class GrupoModelAssembler {
 
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public EstadoModel toModel(Estado estado) {
-		return modelMapper.map(estado, EstadoModel.class);
+	public GrupoModel toModel(Grupo grupo) {
+		return modelMapper.map(grupo, GrupoModel.class);
 	}
 	
-	public List<EstadoModel> toCollectionModel(List<Estado> estados) {
-		return estados.stream()
-				.map(estado -> toModel(estado))
+	public List<GrupoModel> toCollectionModel(List<Grupo> grupos) {
+		return grupos.stream()
+				.map(grupo -> toModel(grupo))
 				.collect(Collectors.toList());
 	}
 	

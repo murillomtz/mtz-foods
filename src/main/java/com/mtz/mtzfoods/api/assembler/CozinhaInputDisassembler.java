@@ -1,10 +1,11 @@
 package com.mtz.mtzfoods.api.assembler;
 
-import com.mtz.mtzfoods.api.model.input.CozinhaInput;
-import com.mtz.mtzfoods.domain.model.Cozinha;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.mtz.mtzfoods.api.model.input.CozinhaInput;
+import com.mtz.mtzfoods.domain.model.Cozinha;
 
 @Component
 public class CozinhaInputDisassembler {
