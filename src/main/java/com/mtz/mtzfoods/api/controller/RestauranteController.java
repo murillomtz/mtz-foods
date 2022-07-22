@@ -4,6 +4,7 @@ import com.mtz.mtzfoods.api.assembler.RestauranteInputDisassembler;
 import com.mtz.mtzfoods.api.assembler.RestauranteModelAssembler;
 import com.mtz.mtzfoods.api.model.RestauranteModel;
 import com.mtz.mtzfoods.api.model.input.RestauranteInput;
+import com.mtz.mtzfoods.domain.exception.CidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.NegocioException;
 import com.mtz.mtzfoods.domain.model.Restaurante;
@@ -18,7 +19,7 @@ import java.util.List;
 
 //@Controller
 //@ResponseBody //Indica que a respostar desse controler, devem ir para a resposta da request HTTP
-@RestController //É um controlador com @ResponseBody imbutido
+@RestController
 @RequestMapping(value = "/restaurantes")
 public class RestauranteController {
 
@@ -53,7 +54,7 @@ public class RestauranteController {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
             return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -67,7 +68,7 @@ public class RestauranteController {
             restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
             return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -84,7 +85,20 @@ public class RestauranteController {
         cadastroRestaurante.inativar(restauranteId);
     }
 
+    @PutMapping("/{restauranteId}/abertura")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void abrir(@PathVariable Long restauranteId) {
+        cadastroRestaurante.abrir(restauranteId);
+    }
+
+    @PutMapping("/{restauranteId}/fechamento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void fechar(@PathVariable Long restauranteId) {
+        cadastroRestaurante.fechar(restauranteId);
+    }
+
 }
+
 
 
 

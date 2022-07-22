@@ -13,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class    CadastroCidadeService {
-    public static final String MSG_CIDADE_EM_USO = "Cidade de codigo %d não pode ser removida," +
-            "pois está em uso. ";
-    public static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe um cadastro de cidade com código %d";
+    private static final String MSG_CIDADE_EM_USO
+            = "Cidade de código %d não pode ser removida, pois está em uso";
     @Autowired
     private CidadeRepository repository;
 
@@ -42,16 +41,14 @@ public class    CadastroCidadeService {
             repository.flush();
 
         } catch (EmptyResultDataAccessException e) {
-            throw new CidadeNaoEncontradaException(
-                    String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
-        } catch (DataIntegrityViolationException e) {
+            throw new CidadeNaoEncontradaException(cidadeId);
             /**
              * {@link DataIntegrityViolationException}: não tem haver com
              * a camada de negocio, ela pertence a camada de infraestrutura
              * por isso, criamos uma Exception personalisada para "traduzir"
              * para camada de negocio.
              * */
-
+        } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format(MSG_CIDADE_EM_USO, cidadeId)
             );
@@ -60,8 +57,6 @@ public class    CadastroCidadeService {
 
     public Cidade buscarOuFalhar(Long cidadeId) {
         return repository.findById(cidadeId)
-                .orElseThrow(() ->
-                        new CidadeNaoEncontradaException(
-                                String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 }
