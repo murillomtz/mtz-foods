@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CadastroRestauranteService {
 
-    @Autowired
-    private RestauranteRepository repository;
 
     @Autowired
-    private CadastroCozinhaService service;
+    private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private CadastroCozinhaService cadastroCozinha;
 
     @Autowired
     private CadastroCidadeService cadastroCidade;
@@ -30,13 +33,13 @@ public class CadastroRestauranteService {
         Long cozinhaId = restaurante.getCozinha().getId();
         Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
-        Cozinha cozinha = service.buscarOuFalhar(cozinhaId);
+        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
         restaurante.getEndereco().setCidade(cidade);
 
-        return repository.save(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     @Transactional
@@ -51,6 +54,16 @@ public class CadastroRestauranteService {
         Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 
         restauranteAtual.inativar();
+    }
+
+    @Transactional
+    public void ativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
     }
 
     @Transactional
@@ -100,7 +113,7 @@ public class CadastroRestauranteService {
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
-        return repository.findById(restauranteId)
+        return restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 }

@@ -7,6 +7,7 @@ import com.mtz.mtzfoods.api.model.input.RestauranteInput;
 import com.mtz.mtzfoods.domain.exception.CidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.NegocioException;
+import com.mtz.mtzfoods.domain.exception.RestauranteNaoEncontradoException;
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
 import com.mtz.mtzfoods.domain.service.CadastroRestauranteService;
@@ -83,6 +84,26 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@PathVariable Long restauranteId) {
         cadastroRestaurante.inativar(restauranteId);
+    }
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            cadastroRestaurante.ativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            cadastroRestaurante.inativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
     }
 
     @PutMapping("/{restauranteId}/abertura")
