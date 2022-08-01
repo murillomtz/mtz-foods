@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mtz.mtzfoods.infrastructure.spec.RestauranteSpecs.comFreteGratis;
-import static com.mtz.mtzfoods.infrastructure.spec.RestauranteSpecs.comNomeSemelhante;
+import static com.mtz.mtzfoods.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static com.mtz.mtzfoods.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
 
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {

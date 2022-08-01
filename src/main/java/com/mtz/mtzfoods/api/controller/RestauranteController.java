@@ -1,9 +1,11 @@
 package com.mtz.mtzfoods.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mtz.mtzfoods.api.assembler.RestauranteInputDisassembler;
 import com.mtz.mtzfoods.api.assembler.RestauranteModelAssembler;
 import com.mtz.mtzfoods.api.model.RestauranteModel;
 import com.mtz.mtzfoods.api.model.input.RestauranteInput;
+import com.mtz.mtzfoods.api.model.view.RestauranteView;
 import com.mtz.mtzfoods.domain.exception.CidadeNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.CozinhaNaoEncontradaException;
 import com.mtz.mtzfoods.domain.exception.NegocioException;
@@ -36,9 +38,16 @@ public class RestauranteController {
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;
 
+    @JsonView(RestauranteView.Resumo.class)
     @GetMapping
     public List<RestauranteModel> listar() {
         return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+    }
+
+    @JsonView(RestauranteView.ApenasNome.class)
+    @GetMapping(params = "projecao=apenas-nome")
+    public List<RestauranteModel> listarApenasNomes() {
+        return listar();
     }
 
     @GetMapping("/{restauranteId}")
@@ -119,7 +128,6 @@ public class RestauranteController {
     }
 
 }
-
 
 
 
