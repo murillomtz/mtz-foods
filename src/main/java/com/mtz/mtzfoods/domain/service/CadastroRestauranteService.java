@@ -1,54 +1,119 @@
 package com.mtz.mtzfoods.domain.service;
 
 import com.mtz.mtzfoods.domain.exception.RestauranteNaoEncontradoException;
-import com.mtz.mtzfoods.domain.model.Cozinha;
-import com.mtz.mtzfoods.domain.model.Restaurante;
+import com.mtz.mtzfoods.domain.model.*;
 import com.mtz.mtzfoods.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CadastroRestauranteService {
 
-    @Autowired
-    private RestauranteRepository repository;
 
     @Autowired
-    private CadastroCozinhaService cozinhaService;
+    private RestauranteRepository restauranteRepository;
 
+    @Autowired
+    private CadastroCozinhaService cadastroCozinha;
+
+    @Autowired
+    private CadastroCidadeService cadastroCidade;
+
+    @Autowired
+    private CadastroFormaPagamentoService cadastroFormaPagamento;
+
+    @Autowired
+    private CadastroUsuarioService cadastroUsuario;
+
+    @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
+        Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
-        Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
+        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+        Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
+        restaurante.getEndereco().setCidade(cidade);
 
-        return repository.save(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
-//    public void excluir(Long restauranteId) {
-//        try {
-//            repository.deleteById(restauranteId);
-//
-//        } catch (EmptyResultDataAccessException e) {
-//            throw new EntidadeNaoEncontradaException(
-//                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
-//        } catch (DataIntegrityViolationException e) {
-//            /**
-//             * {@link DataIntegrityViolationException}: não tem haver com
-//             * a camada de negocio, ela pertence a camada de infraestrutura
-//             * por isso, criamos uma Exception personalisada para "traduzir"
-//             * para camada de negocio.
-//             * */
-//            throw new EntidadeEmUsoException(
-//                    String.format("Restaurante de codigo %d não pode ser removida," +
-//                            "pois está em uso. ", restauranteId)
-//            );
-//        }
-//    }
+    @Transactional
+    public void ativar(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+        restauranteAtual.ativar();
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+        restauranteAtual.inativar();
+    }
+
+    @Transactional
+    public void ativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
+    }
+
+    @Transactional
+    public void abrir(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+        restauranteAtual.abrir();
+    }
+
+    @Transactional
+    public void fechar(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+        restauranteAtual.fechar();
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.removerFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.removerResponsavel(usuario);
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarResponsavel(usuario);
+    }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
-        return repository.findById(restauranteId)
+        return restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 }

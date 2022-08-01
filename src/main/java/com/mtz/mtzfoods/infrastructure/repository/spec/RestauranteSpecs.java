@@ -1,4 +1,4 @@
-package com.mtz.mtzfoods.infrastructure.spec;
+package com.mtz.mtzfoods.infrastructure.repository.spec;
 
 import com.mtz.mtzfoods.domain.model.Restaurante;
 import org.springframework.data.jpa.domain.Specification;
